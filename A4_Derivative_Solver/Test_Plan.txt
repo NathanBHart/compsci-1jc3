@@ -1,0 +1,58 @@
+-------- Function: eval --------
+Test Case Number: 1
+Input: eval ((-5) + X) 5
+Expected Output: 0.0
+Actual Output: 0.0
+
+Test Case Number: 2
+Input: eval (Power X 0) 0
+Expected Output: 1.0
+Actual Output: 1.0
+
+Test Case Number: 3
+Input: eval (Mult (Coef (-100)) (Power X (-1))) 10
+Expected Output: -10.0
+Actual Output: -10.0
+
+-------- Function: diff --------
+!! Using simplify function defined below to assist with inspection !!
+Function is further tested using runDiffProp, which tests three different
+quicktest cases.
+
+Test Case Number: 1
+Input: diff $ Mult (Coef 5) (Power X 2)
+Expected Output: 10 * X 
+Actual Output: Add (Mult (Coef 0.0) (Power X 2)) (Mult (Coef 5.0) (Mult (Mult (Coef 2.0) (Power X 1)) (Coef 1.0)))
+        --> simplify (output) = Mult (Coef 5.0) (Mult (Coef 2.0) X)
+        --> equivalent to expression 10 * X (expected output)
+
+Test Case Number: 2
+Input: diff $ Sin $ Cos (Mult (Coef 5) X)
+Expected Output: (-5)*cos(cos(5*X))*sin(5*X)
+Actual Output: Mult (Cos (Cos (Mult (Coef 5.0) X))) (Mult (Mult (Sin (Mult (Coef 5.0) X)) (Add (Mult (Coef 0.0) X) (Mult (Coef 5.0) (Coef 1.0)))) (Coef (-1.0)))
+        --> simplify (output) = Mult (Cos (Cos (Mult (Coef 5.0) X))) (Mult (Mult (Sin (Mult (Coef 5.0) X)) (Coef 5.0)) (Coef (-1.0)))
+        --> equivalent to expression (-5)*cos(cos(5*X))*sin(5*X) (expected output)
+
+Test Case Number: 3
+Input: diff $ abs ((5 + X) / (X - 5))
+Expected Output: (abs(X - 5) * (5 + X))/((X - 5)^^2 * abs(5 + X))
+Actual Output: Mult (Mult (Mult (Add (Coef 5.0) X) (Power (Add X (Coef (-5.0))) (-1))) (Power (Abs (Mult (Add (Coef 5.0) X) (Power (Add X (Coef (-5.0))) (-1)))) (-1))) (Add (Mult (Add (Coef 0.0) (Coef 1.0)) (Power (Add X (Coef (-5.0))) (-1))) (Mult (Add (Coef 5.0) X) (Mult (Mult (Coef (-1.0)) (Power (Add X (Coef (-5.0))) (-2))) (Add (Coef 1.0) (Coef 0.0)))))
+        --> simplify (output) = Mult (Mult (Mult (Add (Coef 5.0) X) (Power (Add X (Coef (-5.0))) (-1))) (Power (Abs (Mult (Add (Coef 5.0) X) (Power (Add X (Coef (-5.0))) (-1)))) (-1))) (Add (Power (Add X (Coef (-5.0))) (-1)) (Mult (Add (Coef 5.0) X) (Mult (Coef (-1.0)) (Power (Add X (Coef (-5.0))) (-2)))))
+        --> pretty (simplified output) = "(((((5.0)+X)*((X+(-5.0))^^(-1)))*(abs((((5.0)+X)*((X+(-5.0))^^(-1))))^^(-1)))*(((X+(-5.0))^^(-1))+(((5.0)+X)*((-1.0)*((X+(-5.0))^^(-2))))))"
+        --> by inspection, is equivalent to expected ouput.
+
+-------- Function: pretty --------
+Test Case Number: 1
+Input: pretty $ Mult (Coef 5) (Power X 2)
+Expected Output: "((5)*(X^^(2)))"
+Actual Output: "((5)*(X^^(2)))"
+
+Test Case Number: 2
+Input: pretty $ Mult (Abs (Coef (-100))) (Power X (-1))
+Expected Output: "(abs((-1000))*(X^^(-1)))"
+Actual Output: "(abs((-1000))*(X^^(-1)))"
+
+Test Case Number: 3
+Input: pretty $ sin ((5 + (cos X)) / (X - 5))
+Expected Output: "sin((((5.0)+cos(X))*((X+(-5.0))^^(-1))))"
+Actual Output: "sin((((5.0)+cos(X))*((X+(-5.0))^^(-1))))"

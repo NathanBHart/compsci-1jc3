@@ -1,0 +1,122 @@
+-------- Function: maxNodeID --------
+Test Case Number: 1
+Input: exGraph
+Expected Output: Just 2
+Actual Output: Just 2
+
+Test Case Number: 2
+Input: edgelessGraph
+Expected Output: Just 2
+Actual Output: Just 2
+
+Test Case Number: 3
+Input: emptyGraph
+Expected Output: Nothing
+Actual Output: Nothing
+
+Test Case Number: 4
+Input: negNodeGraph
+Expected Output: Just 2
+Actual Output: Just 2
+
+-------- Function: insertNode --------
+Test Case Number: 1
+Input: 1 exGraph
+Expected Output: error -> Type Int /= type Char
+Actual Output: confirmed error
+
+Test Case Number: 2
+Input: 'D' exGraph
+Expected Output: Graph [(Node {getNodeID = 3, getNodeVal = 'D'},[]),
+                        (Node {getNodeID = 0, getNodeVal = 'A'},[1,2]),
+                        (Node {getNodeID = 1, getNodeVal = 'B'},[]),
+                        (Node {getNodeID = 2, getNodeVal = 'C'},[1,2])]
+Actual Output: Graph [(Node {getNodeID = 3, getNodeVal = 'D'},[]),
+                      (Node {getNodeID = 0, getNodeVal = 'A'},[1,2]),
+                      (Node {getNodeID = 1, getNodeVal = 'B'},[]),
+                      (Node {getNodeID = 2, getNodeVal = 'C'},[1,2])]
+
+Test Case Number: 3
+Input: 1 emptyGraph
+Expected Output: Graph [(Node {getNodeID = 0, getNodeVal = 1},[])]
+Actual Output: Graph [(Node {getNodeID = 0, getNodeVal = 1},[])]
+
+Test Case Number: 4
+Input: 'A' (insertNode 1 emptyGraph)
+Expected Output: error -> Type 'A' /= type 1
+Actual Output: confirmed error
+
+Test Case Number: 5
+Input: 2 (insertNode 1 emptyGraph)
+Expected Output: Graph [(Node {getNodeID = 1, getNodeVal = 2},[]),(Node {getNodeID = 0, getNodeVal = 1},[])]
+Actual Output: Graph [(Node {getNodeID = 1, getNodeVal = 2},[]),(Node {getNodeID = 0, getNodeVal = 1},[])]
+
+Test Case Number: 6
+Input: 'B' negNodeGraph
+Expected Output: Graph [(Node {getNodeID = -1, getNodeVal = 'B'},[]),(Node {getNodeID = -2, getNodeVal = 'A'},[])]
+Actual Output: Graph [(Node {getNodeID = -1, getNodeVal = 'B'},[]),(Node {getNodeID = -2, getNodeVal = 'A'},[])]
+Comment: Added node should have id of -1 as that is 1 more than the largest node in the previous graph.
+
+-------- Function: removeNode --------
+Test Case Number: 1
+Input: 1 exGraph
+Expected Output: Graph [(Node {getNodeID = 0, getNodeVal = 'A'},[2]),(Node {getNodeID = 2, getNodeVal = 'C'},[2])]
+Actual Output: Graph [(Node {getNodeID = 0, getNodeVal = 'A'},[2]),(Node {getNodeID = 2, getNodeVal = 'C'},[2])]
+
+Test Case Number: 2
+Input: 4 exGraph
+Expected Output: exGraph
+Actual Output: Graph [(Node {getNodeID = 0, getNodeVal = 'A'},[1,2]),
+                      (Node {getNodeID = 1, getNodeVal = 'B'},[]),
+                      (Node {getNodeID = 2, getNodeVal = 'C'},[1,2])] -> Same as exGraph
+
+Test Case Number: 3
+Input: 1 emptyGraph
+Expected Output: emptyGraph
+Actual Output: Graph [] -> Same as emptyGraph
+
+Test Case Number: 4
+Input: (-2) negNodeGraph
+Expected Output: Graph []
+Actual Output: Graph []
+
+-------- Function: lookupNode --------
+Test Case Number: 1
+Input: 1 exGraph
+Expected Output: Just (Node {getNodeID = 1, getNodeVal = 'B'})
+Actual Output: Just (Node {getNodeID = 1, getNodeVal = 'B'})
+
+Test Case Number: 2
+Input: 1 exGraph
+Expected Output: Nothing
+Actual Output: Nothing
+
+Test Case Number: 3
+Input: (-2) negNodeGraph
+Expected Output: Just (Node {getNodeId = -2, getNodeVal = 'A'})
+Actual Output: Just (Node {getNodeId = -2, getNodeVal = 'A'})
+
+-------- Function: insertEdge --------
+Test Case Number: 1
+Input: (1, 0) exGraph
+Expected Output: Just (Graph [(Node {getNodeID = 0, getNodeVal = 'A'},[1,2]),
+                              (Node {getNodeID = 1, getNodeVal = 'B'},[0]),
+                              (Node {getNodeID = 2, getNodeVal = 'C'},[1,2])])
+Actual Output: Just (Graph [(Node {getNodeID = 0, getNodeVal = 'A'},[1,2]),
+                            (Node {getNodeID = 1, getNodeVal = 'B'},[0]),
+                            (Node {getNodeID = 2, getNodeVal = 'C'},[1,2])])
+
+Test Case Number: 2
+Input: (0, 4) exGraph
+Expected Output: Nothing
+Actual Output: Nothing
+
+Test Case Number: 3
+Input: (-2, -2) negNodeGraph
+Expected Output: Just (Graph [(Node {getNodeID = -2, getNodeVal = 'A'},[-2])])
+Actual Output: Just (Graph [(Node {getNodeID = -2, getNodeVal = 'A'},[-2])])
+
+Test Case Number: 4
+Input: (0, 1) emptyGraph
+Expected Output: Nothing
+Actual Output: Nothing
